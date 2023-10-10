@@ -30,14 +30,14 @@ const VendorAuthentication = async (req, res) => {
     const { name, Mobilenumber, GST, country } = req.body;
   
     try {
-      // if already exists
+     
       const existingVendor = await User.findOne({  Mobilenumber });
   
       if (existingVendor) {
         return res.status(400).json({ error: 'Duplicate vendor. This vendor already exists.' });
       }
 
-      //Mobile number Validation
+     
       if (!/^\d{10}$/.test(Mobilenumber)) {
         return res.status(400).json({ error: 'Invalid mobile number.' });
       }
@@ -119,7 +119,7 @@ const VendorAuthentication = async (req, res) => {
     const { name } = req.query;
   
     try {
-      // Delete the vendor's record based on the provided name
+     
       const deletedVendor = await User.findOneAndDelete({ name });
   
       if (!deletedVendor) {

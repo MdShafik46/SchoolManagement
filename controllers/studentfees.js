@@ -11,18 +11,17 @@ const studentFeesDetails = async (req, res) => {
 
         } = req.body;
 
-        // Logging the request body
         console.log('Request body:', req.body);
 
-        // Check if a fees with the same name already exists
+        
         const existingfees = await studentfees.findOne({  StudentId,  
  });
         if (existingfees) {
-            // Return a 400 Bad Request response if the fees already exists
+           
             return res.status(400).json({ error: 'fees with the same name already exists' });
         }
 
-        // Create a new fees instance
+        
         const newstudentfees = new studentfees({
             transactionId,  
             StudentId,
@@ -30,23 +29,23 @@ const studentFeesDetails = async (req, res) => {
             TotalFees,
         });
 
-        // Save the new fees to the database
+        
         await newstudentfees.save();
 
-        // Logging the saved fees
+       
         console.log('New fees saved:', newstudentfees);
 
-        // Return a 201 Created response with the new fees data
+        
         res.status(201).json(newstudentfees);
     } catch (error) {
-        // Handle different types of errors
+       
         console.error('Error in studentFeesDetails:', error);
 
         if (error.StudentId === 'ValidationError') {
-            // Handle validation errors
+           
             res.status(400).json({ error: error.message });
         } else {
-            // Handle other types of errors
+           
             res.status(500).json({ error: 'Internal Server Error' });
         }
     }
@@ -78,12 +77,12 @@ const getstudentfeesbyName = async (req, res) => {
 };
 const updatestudentfeestByName = async (req, res) => {
     try {
-        const { StudentId } = req.query; // Extract the student's name from query parameters
-        console.log('Name from query:', StudentId); // Add this line for debugging
+        const { StudentId } = req.query;
+        console.log('Name from query:', StudentId); 
 
-        const updateData = req.body; // Extract the updated data from the request body
+        const updateData = req.body; 
 
-        // Use Mongoose or your database library to update the student by name
+        
         const updatedStudent = await studentfees.findOneAndUpdate({ StudentId }, updateData, {
             new: true,
         });
@@ -94,7 +93,7 @@ const updatestudentfeestByName = async (req, res) => {
 
         res.status(200).json(updatedStudent);
     } catch (error) {
-        console.error('Error:', error); // Add this line for debugging
+        console.error('Error:', error);
         res.status(500).json({ error: 'Error while updating student data' });
     }
 };

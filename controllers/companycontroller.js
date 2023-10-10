@@ -16,17 +16,17 @@ const CompanyDetails = async (req, res) => {
             Grant
         } = req.body;
 
-        // Logging the request body
+      
         console.log('Request body:', req.body);
 
-        // Check if a company with the same name already exists
+       
         const existingCompany = await Company.findOne({ name });
         if (existingCompany) {
-            // Return a 400 Bad Request response if the company already exists
+           
             return res.status(400).json({ error: 'Company with the same name already exists' });
         }
 
-        // Create a new Company instance
+      
         const newCompany = new Company({
             id,
             name,
@@ -41,23 +41,23 @@ const CompanyDetails = async (req, res) => {
             Grant
         });
 
-        // Save the new company to the database
+       
         await newCompany.save();
 
-        // Logging the saved company
+       
         console.log('New company saved:', newCompany);
 
-        // Return a 201 Created response with the new company data
+        
         res.status(201).json(newCompany);
     } catch (error) {
-        // Handle different types of errors
+       
         console.error('Error in CompanyDetails:', error);
 
         if (error.name === 'ValidationError') {
-            // Handle validation errors
+            
             res.status(400).json({ error: error.message });
         } else {
-            // Handle other types of errors
+         
             res.status(500).json({ error: 'Internal Server Error' });
         }
     }
@@ -89,24 +89,24 @@ const getCompanybyName = async (req, res) => {
 };
 const updateCompanytByName = async (req, res) => {
     try {
-        const { name } = req.query; // Extract the student's name from query parameters
-        console.log('Name from query:', name); // Add this line for debugging
+        const { name } = req.query; 
+        console.log('Name from query:', name);
 
-        const updateData = req.body; // Extract the updated data from the request body
+        const updateData = req.body; 
 
-        // Use Mongoose or your database library to update the student by name
+       
         const updatedStudent = await Company.findOneAndUpdate({ name }, updateData, {
             new: true,
         });
 
         if (!updatedStudent) {
-            return res.status(404).json({ error: 'Student not found' });
+            return res.status(404).json({ error: 'Company not found' });
         }
 
         res.status(200).json(updatedStudent);
     } catch (error) {
-        console.error('Error:', error); // Add this line for debugging
-        res.status(500).json({ error: 'Error while updating student data' });
+        console.error('Error:', error); 
+        res.status(500).json({ error: 'Error while updating Company data' });
     }
 };
 

@@ -27,11 +27,11 @@ PFnumber
         
         console.log('Request body:', req.body);
 
-        // Check if a company with the same name already exists
+       
         const existingCompany = await Staff.findOne({ name });
         if (existingCompany) {
-            // Return a 400 Bad Request response if the company already exists
-            return res.status(400).json({ error: 'Company with the same name already exists' });
+           
+            return res.status(400).json({ error: 'staff with the same name already exists' });
         }
 
 
@@ -61,19 +61,19 @@ PFnumber
         
         await newStaff.save();
 
-        console.log('New company saved:', newStaff);
+        console.log('New staff saved:', newStaff);
 
-        // Return a 201 Created response with the new company data
+       
         res.status(201).json(newStaff);
     } catch (error) {
-        // Handle different types of errors
-        console.error('Error in CompanyDetails:', error);
+      
+        console.error('Error in staffDetails:', error);
 
         if (error.name === 'ValidationError') {
-            // Handle validation errors
+           
             res.status(400).json({ error: error.message });
         } else {
-            // Handle other types of errors
+          
             res.status(500).json({ error: 'Internal Server Error' });
         }
     }
@@ -81,7 +81,7 @@ PFnumber
 
 const getStaff = async (req, res) => {
     try {
-        // Use a different variable name to avoid naming conflict
+       
         const staffData = await Staff.find(); 
 
         res.status(200).json(staffData);
@@ -107,23 +107,23 @@ const getStaffbyName = async (req, res) => {
 };
 const updateStafftByName = async (req, res) => {
     try {
-        const { name } = req.query; // Extract the student's name from query parameters
-        console.log('Name from query:', name); // Add this line for debugging
+        const { name } = req.query;
+        console.log('Name from query:', name);
 
-        const updateData = req.body; // Extract the updated data from the request body
+        const updateData = req.body;
 
-        // Use Mongoose or your database library to update the student by name
-        const updatedStudent = await Staff.findOneAndUpdate({ name }, updateData, {
+        
+        const updatedstaff = await Staff.findOneAndUpdate({ name }, updateData, {
             new: true,
         });
 
-        if (!updatedStudent) {
+        if (!updatedstaff) {
             return res.status(404).json({ error: 'Student not found' });
         }
 
-        res.status(200).json(updatedStudent);
+        res.status(200).json(updatedstaff);
     } catch (error) {
-        console.error('Error:', error); // Add this line for debugging
+        console.error('Error:', error); 
         res.status(500).json({ error: 'Error while updating student data' });
     }
 };

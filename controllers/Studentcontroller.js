@@ -18,13 +18,13 @@ const StudentDetails = async (req, res) => {
         } = req.body;
 
         
-        const existingCustomer = await Students.findOne({ GRNO });
-        if (existingCustomer) {
+        const existingstudent = await Students.findOne({ GRNO });
+        if (existingstudent) {
             return res.status(400).json({ error: 'GR Number  already exists' });
         }
 
         
-        const newCustomer = new Students({
+        const newStudent = new Students({
             name,
             lastname,
             middlename,
@@ -40,9 +40,9 @@ const StudentDetails = async (req, res) => {
         });
 
         
-        await newCustomer.save();
+        await newStudent.save();
 
-        res.status(201).json(newCustomer);
+        res.status(201).json(newStudent);
     } catch (error) {
         res.status(500).json({ error: 'Error found in your json data' });
     }
@@ -79,12 +79,12 @@ const getStudentbyName = async (req, res) => {
 // updateStudentBy fullname or grno
 const updateStudentByName = async (req, res) => {
     try {
-        const { name } = req.query; // Extract the student's name from query parameters
-        console.log('Name from query:', name); // Add this line for debugging
+        const { name } = req.query; 
+        console.log('Name from query:', name); 
 
-        const updateData = req.body; // Extract the updated data from the request body
+        const updateData = req.body; 
 
-        // Use Mongoose or your database library to update the student by name
+       
         const updatedStudent = await Students.findOneAndUpdate({ name }, updateData, {
             new: true,
         });
@@ -95,7 +95,7 @@ const updateStudentByName = async (req, res) => {
 
         res.status(200).json(updatedStudent);
     } catch (error) {
-        console.error('Error:', error); // Add this line for debugging
+        console.error('Error:', error); 
         res.status(500).json({ error: 'Error while updating student data' });
     }
 };
